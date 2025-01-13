@@ -1,10 +1,17 @@
 const express = require('express');
 const app = express();
 const db = require('./db.js');
+const cors = require('cors');
+require("dotenv").config({ path: ".env" });
+const path = require('path');
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
 app.get('/', (req, res) => {
     try {
         //console.log('Assingment API is running.........');
