@@ -34,20 +34,20 @@ function OTPTablePage() {
       >
         <thead>
           <tr>
-            <th>User ID</th>
+            {/* <th>User ID</th> */}
             <th>Username</th>
             <th>Generated OTP</th>
-            <th>Status</th>
+            {/* <th>Status</th> */}
             <th>Actions</th> 
           </tr>
         </thead>
         <tbody>
           {otpData?.map((item) => (
             <tr key={item.id}>
-              <td>{item.id}</td>
+              {/* <td>{item.id}</td> */}
               <td>{item.username}</td>
               <td>{item.tempotp}</td>
-              <td>{item.status || "Pending"}</td>
+              {/* <td>{item.status || "Pending"}</td> */}
               <td>
                 <button onClick={handleAccept}>Accept</button>
               </td>

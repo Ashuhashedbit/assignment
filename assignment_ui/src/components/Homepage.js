@@ -1,30 +1,53 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
-
-const checkLoggedIn = () => {
-  const user = localStorage.getItem("user"); 
-  return user ? JSON.parse(user) : null; 
+// Helper function to get user info from local storage
+const getUserInfo = () => {
+  const userId = localStorage.getItem("user_id");
+  const userType = localStorage.getItem("user_type");
+  return userId ? { userId, userType } : null;
 };
 
 const Homepage = () => {
   const [user, setUser] = useState(null);
+  const [userType, setUserType] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loggedInUser = checkLoggedIn();
-    setUser(loggedInUser);
+    const userInfo = getUserInfo();
+
+    if (userInfo) {
+      setUser(userInfo);
+
+      // Fetch user type if not already in local storage
+      if (!userInfo.userType) {
+        fetchUserType(userInfo.userId);
+      } else {
+        setUserType(userInfo.userType);
+      }
+    }
   }, []);
 
-  const getAccessLevel = (usertype) => {
-    const accessLevels = {
-      admin: ["createuser", "modifyuser", "removeuser", "adddepartment", "addcourse"],
-      principal: ["modifyuser", "addcourse"],
-      teacher: ["addcourse", "modifycourse", "removecourse", "addexamresult"],
-      parent: ["viewcourse", "viewexamresult"],
-      student: ["viewcourse", "viewexamresult"],
-    };
-    return accessLevels[usertype] || [];
+  // Function to fetch user type from the backend
+  const fetchUserType = async (userId) => {
+    try {
+      const response = await axios.get(`http://localhost:4000/users/${userId}`);
+      const { userType } = response.data;
+      console.log(userType)
+      localStorage.setItem("user_type", userType);
+      setUserType(userType);
+    } catch (err) {
+      console.error("Error fetching user type:", err);
+    }
+  };
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("user_type");
+    setUser(null);
+    setUserType(null);
   };
 
   return (
@@ -33,13 +56,13 @@ const Homepage = () => {
         <div>
           {user ? (
             <>
-              <h3>Welcome, {user.username}!</h3>
-              <h4>Your Access Level:</h4>
-              <ul>
-                {getAccessLevel(user.usertype).map((action) => (
-                  <li key={action}>{action}</li>
-                ))}
-              </ul>
+              {/* <h1>Hello, User #{user.userId}!</h1> */}
+              {/* <h4>Your User Type: {userType || "Loading..."}</h4> */}
+              <button>
+                <Link to="/userlist">User</Link>
+              </button>
+              {/* Logout Button */}
+              <button onClick={handleLogout}>Logout</button>
             </>
           ) : (
             <button>
@@ -47,6 +70,7 @@ const Homepage = () => {
             </button>
           )}
         </div>
+        {/* <h1>Hello, User {userType.name}!</h1> */}
         <h1>Welcome to ExamHub!</h1>
         <p>Your ultimate destination for exam preparation and study resources.</p>
       </header>
