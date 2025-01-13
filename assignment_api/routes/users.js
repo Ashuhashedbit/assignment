@@ -14,6 +14,17 @@ router.get('/allusers', async (req, res) => {
         res.status(400).json(err);
     }
 })
+//http://localhost:4000/users/getuser/:userid
+router.get('/getuser/:userid', async (req, res) => {
+  try {
+      const userid = req.params.userid;
+      const response = await db.promise().query(`SELECT * FROM users where userid='${userid}'`);
+      res.status(200).json(response[0]);
+  }
+  catch (err) {
+      res.status(400).json(err);
+  }
+})
 
 //http://localhost:4000/users/adduser
 router.post('/adduser', async (req, res) => {
