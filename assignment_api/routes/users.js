@@ -20,9 +20,9 @@ router.post('/adduser', async (req, res) => {
     try {
         const { name, email, gender,mobile,password, usertype } = req.body;
         const userid = parseInt(Math.random() * 10000000000);
-        console.log(userid);
+        //console.log(userid);
         const username = name.toLowerCase().split(' ').join('').slice(0, 5) + parseInt(Math.random() * 100000);
-        await db.promise().query(`INSERT INTO users (userid,username,name,email,gender,mobile,,password,usertype)
+        await db.promise().query(`INSERT INTO users (userid,username,name,email,gender,mobile,password,usertype)
                          VALUES ('${userid}','${username}',' ${name}','${email}','${gender}',
                           '${mobile}','${password}','${usertype}' )`);
         res.status(200).json({ message: `User ${username} Added Successfully` });
