@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import {useLocation, useNavigate } from "react-router-dom";
-
-const usersData = [
-  { id: "user001", username: "Admin", password: "123456", usertype: "admin" },
-  { id: "user002", username: "Principal", password: "123456", usertype: "principal" },
-  { id: "user003", username: "Teacher", password: "123456", usertype: "teacher" },
-  { id: "user004", username: "Parent", password: "123456", usertype: "parent" },
-  { id: "user005", username: "Student", password: "123456", usertype: "student" },
-];
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -24,49 +17,65 @@ function Login() {
     setCredentials({ ...credentials, [name]: value });
   };
 
-  const handleGenerateOtp = () => {
-    const user = usersData.find(
-      (user) => user.username === credentials.username && user.password === credentials.password
-    );
+  // Generate OTP by verifying username and password from DB
+  const handleGenerateOtp = async () => {
+    try {
+      const { username, password } = credentials;
+      const response = await axios.post("http://localhost:4000/users/login", {
+        username,
+        password,
+      });
 
-    if (user) {
-      const otp = Math.floor(Math.random() * 1000000);
-      user.tempotp = otp;
-      setCredentials({ ...credentials, otp });
+      if (response.status === 200) {
+        const user = response.data.find(
+          (user) => user.username === username && user.password === password
+        );
 
-      // Navigate to OTP page
-      navigate("/otp-table", { state: { user: user } });
-    } else {
-      setError("Invalid username or password!");
+        if (user) {
+          const otp = Math.floor(Math.random() * 1000000);
+          user.tempotp = otp; // Assign temp OTP for verification
+          setCredentials({ ...credentials, otp });
+
+          // Store user ID in local storage
+          localStorage.setItem("user_id", user.userid);
+
+          // Navigate to OTP page with user info
+          navigate("/otp-table", { state: { user } });
+        } else {
+          setError("Invalid username or password!");
+        }
+      }
+    } catch (err) {
+      setError("Error generating OTP. Please try again.");
     }
   };
 
-  const handleSubmit = (e) => {
+  // Submit login with username, password, and OTP
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const user = usersData.find(
-      (user) =>
-        user.username === credentials.username &&
-        user.password === credentials.password &&
-        user.tempotp === credentials.otp
-    );
+    try {
+      const { username, password, otp } = credentials;
+      const response = await axios.post("http://localhost:4000/users/login", {
+        username,
+        password,
+      });
 
-    if (user) {
-      const accessLevel = getAccessLevel(user.usertype);
-      navigate("/", { state: { user, accessLevel } }); 
-    } else {
-      setError("Login failed. Incorrect OTP or credentials.");
+      const user = response.data.find(
+        (user) => user.username === username && user.tempotp === otp
+      )
+      // localStorage.setItem("user_id", user.userid);
+        navigate("/");;
+
+      // if (user) {
+      //   // Store user ID in local storage after successful login
+      //   localStorage.setItem("user_id", user.userid);
+      //   navigate("/");
+      // } else {
+      //   setError("Login failed. Incorrect OTP or credentials.");
+      // }
+    } catch (err) {
+      setError("Error during login. Please try again.");
     }
-  };
-
-  const getAccessLevel = (usertype) => {
-    const accessLevels = {
-      admin: ["createuser", "modifyuser", "removeuser", "adddepartment", "addcourse"],
-      principal: ["modifyuser", "addcourse"],
-      teacher: ["addcourse", "modifycourse", "removecourse", "addexamresult"],
-      parent: ["viewcourse", "viewexamresult"],
-      student: ["viewcourse", "viewexamresult"],
-    };
-    return accessLevels[usertype] || [];
   };
 
   return (
@@ -104,18 +113,18 @@ function Login() {
             placeholder="Enter OTP"
             required
           />
+          <button
+            type="button"
+            onClick={handleGenerateOtp}
+            style={{ marginTop: "10px", marginLeft: "10px" }}
+          >
+            Generate OTP
+          </button>
         </div>
         <button type="submit" style={{ marginTop: "15px" }}>
           Login
         </button>
       </form>
-      <button
-        type="button"
-        onClick={handleGenerateOtp}
-        style={{ marginTop: "10px", marginLeft: "10px" }}
-      >
-        Generate OTP
-      </button>
     </div>
   );
 }
