@@ -16,6 +16,7 @@ const UsersUpdate = () => {
         );
         if (response.data) {
           setFormValues({
+            userid: userid,
             name: response.data[0].name,
             email: response.data[0].email,
             gender: response.data[0].gender,
@@ -34,7 +35,7 @@ const UsersUpdate = () => {
 
   const updateUser = async (values) => {
     try {
-      const response = await axios.post(
+      const response = await axios.put(
         `${process.env.REACT_APP_API_URL}users/updateuser/${userid}`,
         values
       );

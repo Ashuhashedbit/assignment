@@ -43,17 +43,15 @@ router.post('/adduser', async (req, res) => {
 });
 
 //http://localhost:4000/users/updateuser/:userid
-router.post('/updateuser/:userid', async (req, res) => {
+router.put('/updateuser/:userid', async (req, res) => {
     try {
-        const { name, email, gender,mobile, usertype } = req.body;
-        let userExists = await checkUserByEmail(email);
-        if(userExists){
-            await db.promise().query(`update users set name ='${name}', gender='${gender}',
-                mobile='${mobile}',usertype='${usertype}' where userid='${userid}'`);
-        res.status(200).json({ message: `User ${username} updated Successfully` });
-        }
-        
-    } catch (err) {
+      const userid = req.params.userid;
+      const {name, email, gender,mobile, usertype } = req.body;
+      const response = await db.promise().query(`update users set name ='${name}',email='${email}', gender='${gender}',
+      mobile='${mobile}',usertype='${usertype}' where userid='${userid}'`);
+      res.status(200).json(response[0]);
+        } 
+    catch (err) {
         res.status(400).json({ message: err });
     }
 });
