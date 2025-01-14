@@ -39,9 +39,14 @@
 
 .homepage {
   font-family: 'Arial, sans-serif';
-  margin: 0 auto;
-  padding: 20px;
-  max-width: 900px;
+  padding-left: 15vh;
+  padding-right: 15vh;
+  padding-top: 15vh;
+  padding-bottom: 15vh;
+  padding: auto;
+  margin-top: 0%;
+  /* padding: 20px; */
+  max-width: 100%;
   line-height: 1.6;
   background-color: #ffffff; /* White background */
 }
@@ -131,6 +136,15 @@ input, select {
   font-size: 16px;
 }
 
+.submit-user {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
 .submit-button:hover {
   background-color: #45a049;
 }
@@ -169,4 +183,51 @@ p {
 .custom-table th {
   font-weight: bold;
   text-transform: uppercase;
+}
+
+
+.styled-table {
+  width: fit-content;
+  border-collapse: collapse;
+  margin-left: 0; /* Ensures the table is aligned to the left */
+  font-size: 18px;
+  text-align: left;
+  float: left; /* Forces the table to align left */
+  margin-right: 20px; /* Adds space between the table and other content */
+}
+
+.styled-table th, .styled-table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.styled-table th {
+  background-color: #009879;
+  color: white;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.submit-button {
+  margin: 5px;
+  background-color: #0288d1;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.submit-button a {
+  text-decoration: none;
+  color: white;
+}
+
+.submit-button:hover {
+  background-color: #0266c8;
 }

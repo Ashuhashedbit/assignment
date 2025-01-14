@@ -18,7 +18,7 @@ function OTPTablePage() {
       navigate("/login", {
         state: {
           username: user.username,
-          password: "123456", 
+          password: user.password, 
           otp: user.tempotp,
         },
       });

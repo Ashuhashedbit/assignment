@@ -2,110 +2,130 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+
 const UsersList = () => {
   const [userList, setUserList] = useState([]);
-  const callUserslist = async () => {
-    try {
-      const url = 'http://localhost:4000/users/allusers';
-      const response = await axios.get(url);
-      //console.log(response);
-      console.log(response.data);
-      setUserList(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [currentUserType, setCurrentUserType] = useState(null);
 
   useEffect(() => {
-    callUserslist();
+    callUsersList();
+    fetchCurrentUserType();
   }, []);
+
+  const fetchCurrentUserType = async () => {
+    const userId = localStorage.getItem('user_id');
+    if (userId) {
+      try {
+        const response = await axios.get(`http://localhost:4000/users/getuser/${userId}`);
+        setCurrentUserType(response.data[0]?.usertype);
+      } catch (error) {
+        console.error('Error fetching user type:', error);
+      }
+    }
+  };
+
+  const callUsersList = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/users/allusers');
+      setUserList(response.data);
+    } catch (error) {
+      console.error('Error fetching user list:', error);
+    }
+  };
+
   const deleteUser = async (id) => {
     try {
-      const url =  "http://localhost:4000/users/removeuser/" + id;
-      const response = await axios.delete(url);
-      callUserslist();
-      //console.log(response);
+      await axios.delete(`http://localhost:4000/users/removeuser/${id}`);
+      callUsersList();
     } catch (err) {
-      console.log('error');
+      console.error('Error deleting user:', err);
     }
-    
   };
-  
-  return (
-    <div>
-      <Link to='/usersadd' className='btn btn-primary'>
-        Create New User
-      </Link>
-      <br></br>
 
-      <table className='table table-striped'>
+  const getUserTypeLabel = (type) => {
+    switch (type) {
+      case 1: return 'Admin';
+      case 2: return 'Principal';
+      case 3: return 'Teacher';
+      case 4: return 'Student';
+      case 5: return 'Parent';
+      default: return 'Unknown';
+    }
+  };
+
+  return (
+    <div className="container">
+      {(currentUserType === 1 || currentUserType === 2) && (
+        <button className="submit-button">
+          <Link to="/usersadd">Create New User</Link>
+        </button>
+      )}
+      <button className="submit-button">
+        <Link to="/">Back</Link>
+      </button>
+
+      <table className="styled-table">
         <thead>
           <tr>
             <th>Sr No</th>
             <th>User Id</th>
-            <th>UserName</th>
+            <th>Username</th>
             <th>Name</th>
             <th>Email</th>
             <th>Gender</th>
             <th>Mobile</th>
-            <th>Password</th>
             <th>User Type</th>
             <th colSpan={3}>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {userList &&
-            userList.map((item, index) => (
-              <tr key={index + item.exam_id}>
+          {userList
+            .filter(item => currentUserType !== 4 ||currentUserType !== 4 || item.userid === parseInt(localStorage.getItem('user_id')))
+            .map((item, index) => (
+              <tr key={item.userid}>
                 <td>{index + 1}</td>
-                <td>{item.userid}</td>   
+                <td>{item.userid}</td>
                 <td>{item.username}</td>
                 <td>{item.name}</td>
                 <td>{item.email}</td>
                 <td>{item.gender}</td>
                 <td>{item.mobile}</td>
-                <td>{item.password}</td>
-                <td>{item.usertype}</td>
-                
+                <td>{getUserTypeLabel(item.usertype)}</td>
                 <td>
-                    <button>
-                    <Link
-                        to={`/users/usersupdate/${item.userid}`}
-                        className="btn btn-warning"
-                      >
-                        Edit
-                      </Link>
-                    
+                  {(currentUserType === 1 || currentUserType === 2) && (
+                    <>
+                      <button className="submit-button">
+                        <Link to={`/users/usersupdate/${item.userid}`}>Edit</Link>
+                      </button>
+                      <button className="submit-button" onClick={() => deleteUser(item.userid)}>
+                        Delete User
+                      </button>
+                      <button className="submit-button">
+                        <Link to={`/users/usersview/${item.userid}`}>View</Link>
+                      </button>
+                    </>
+                  )}
+                  {currentUserType === 3 && (
+                    <>
+                      <button className="submit-button">
+                        <Link to={`/users/usersupdate/${item.userid}`}>Edit</Link>
+                      </button>
+                      <button className="submit-button">
+                        <Link to={`/users/usersview/${item.userid}`}>View</Link>
+                      </button>
+                    </>
+                  )}
+                  {(currentUserType === 4 || currentUserType === 5) && (
+                    <button className="submit-button">
+                      <Link to={`/users/usersview/${item.userid}`}>View</Link>
                     </button>
-                 
-                </td>
-                <td>
-                <button
-                    onClick={() => deleteUser(item.userid)}
-                    className='btn btn-danger'
-                  >
-                    Delete User
-                  </button>
-                 
-                </td>
-                <td>
-                    <button>
-                    <Link
-                    to={`/users/usersview/${item.userid}`}
-                    className='btn btn-warning'
-                  >
-                    View
-                  </Link>
-                    </button>
-                 
+                  )}
                 </td>
               </tr>
             ))}
         </tbody>
       </table>
-      <br></br>
     </div>
-   
   );
 };
 
