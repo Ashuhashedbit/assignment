@@ -3,12 +3,12 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const UsersList = () => {
-  const [userList, setUserList] = useState();
-  const callApiExamsList = async () => {
+  const [userList, setUserList] = useState([]);
+  const callUserslist = async () => {
     try {
-      const url = process.env.REACT_APP_API_URL + 'users/allusers';
+      const url = 'http://localhost:4000/users/allusers';
       const response = await axios.get(url);
-      console.log(response);
+      //console.log(response);
       console.log(response.data);
       setUserList(response.data);
     } catch (error) {
@@ -17,11 +17,20 @@ const UsersList = () => {
   };
 
   useEffect(() => {
-    callApiExamsList();
+    callUserslist();
   }, []);
-
+  const deleteUser = async (id) => {
+    try {
+      const url =  "http://localhost:4000/users/removeuser/" + id;
+      const response = await axios.delete(url);
+      callUserslist();
+      //console.log(response);
+    } catch (err) {
+      console.log('error');
+    }
+    
+  };
   
-
   return (
     <div>
       <Link to='/useradd' className='btn btn-primary'>
@@ -37,9 +46,10 @@ const UsersList = () => {
             <th>UserName</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Gender</th>
             <th>Mobile</th>
             <th>Password</th>
-            <th>Status</th>
+            <th>User Type</th>
             <th colSpan={3}>Actions</th>
           </tr>
         </thead>
@@ -52,16 +62,40 @@ const UsersList = () => {
                 <td>{item.username}</td>
                 <td>{item.name}</td>
                 <td>{item.email}</td>
+                <td>{item.gender}</td>
                 <td>{item.mobile}</td>
                 <td>{item.password}</td>
+                <td>{item.usertype}</td>
+                
                 {/* <td>{item.status}</td> */}
                 <td>
                     <button>
                     <Link
-                    to={`/useredit/${item.userid}`}
+                        to={`/useredit/${item.userid}`}
+                        className="btn btn-warning"
+                      >
+                        Edit
+                      </Link>
+                    
+                    </button>
+                 
+                </td>
+                <td>
+                <button
+                    onClick={() => deleteUser(item.userid)}
+                    className='btn btn-danger'
+                  >
+                    Delete User
+                  </button>
+                 
+                </td>
+                <td>
+                    <button>
+                    <Link
+                    to={`/usereview/${item.userid}`}
                     className='btn btn-warning'
                   >
-                    Edit
+                    View
                   </Link>
                     </button>
                  
