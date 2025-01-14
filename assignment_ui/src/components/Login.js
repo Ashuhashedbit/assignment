@@ -17,7 +17,6 @@ function Login() {
     setCredentials({ ...credentials, [name]: value });
   };
 
-  // Generate OTP by verifying username and password from DB
   const handleGenerateOtp = async () => {
     try {
       const { username, password } = credentials;
@@ -50,7 +49,6 @@ function Login() {
     }
   };
 
-  // Submit login with username, password, and OTP
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -62,28 +60,20 @@ function Login() {
 
       const user = response.data.find(
         (user) => user.username === username && user.tempotp === otp
-      )
-      // localStorage.setItem("user_id", user.userid);
-        navigate("/");;
+      );
+      navigate("/");
 
-      // if (user) {
-      //   // Store user ID in local storage after successful login
-      //   localStorage.setItem("user_id", user.userid);
-      //   navigate("/");
-      // } else {
-      //   setError("Login failed. Incorrect OTP or credentials.");
-      // }
     } catch (err) {
       setError("Error during login. Please try again.");
     }
   };
 
   return (
-    <div style={{ margin: "50px" }}>
+    <div className="container">
       <h2>Login</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="user-form">
+        <div className="form-group">
           <label>Username:</label>
           <input
             type="text"
@@ -93,7 +83,7 @@ function Login() {
             required
           />
         </div>
-        <div style={{ marginTop: "10px" }}>
+        <div className="form-group">
           <label>Password:</label>
           <input
             type="password"
@@ -103,7 +93,7 @@ function Login() {
             required
           />
         </div>
-        <div style={{ marginTop: "10px" }}>
+        <div className="form-group">
           <label>OTP:</label>
           <input
             type="text"
@@ -113,17 +103,22 @@ function Login() {
             placeholder="Enter OTP"
             required
           />
+        </div>
+        <div className="form-group">
           <button
             type="button"
             onClick={handleGenerateOtp}
-            style={{ marginTop: "10px", marginLeft: "10px" }}
+            className="submit-button"
+            style={{ marginTop: "10px", marginLeft: "40%" }}
           >
             Generate OTP
           </button>
         </div>
-        <button type="submit" style={{ marginTop: "15px" }}>
-          Login
-        </button>
+        <div className="form-group">
+          <button type="submit" className="submit-button" style={{ marginTop: "15px", marginLeft: "50%" }}>
+            Login
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -33,7 +33,7 @@ const UsersList = () => {
   
   return (
     <div>
-      <Link to='/useradd' className='btn btn-primary'>
+      <Link to='/usersadd' className='btn btn-primary'>
         Create New User
       </Link>
       <br></br>
@@ -67,11 +67,10 @@ const UsersList = () => {
                 <td>{item.password}</td>
                 <td>{item.usertype}</td>
                 
-                {/* <td>{item.status}</td> */}
                 <td>
                     <button>
                     <Link
-                        to={`/useredit/${item.userid}`}
+                        to={`/users/usersupdate/${item.userid}`}
                         className="btn btn-warning"
                       >
                         Edit
@@ -92,7 +91,7 @@ const UsersList = () => {
                 <td>
                     <button>
                     <Link
-                    to={`/usereview/${item.userid}`}
+                    to={`/users/usersview/${item.userid}`}
                     className='btn btn-warning'
                   >
                     View
