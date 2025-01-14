@@ -14,14 +14,14 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #f8f9fa; /* Light background for better readability */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #333; /* Dark text for contrast */
 }
 
 .App-link {
@@ -43,11 +43,11 @@
   padding: 20px;
   max-width: 900px;
   line-height: 1.6;
+  background-color: #ffffff; /* White background */
 }
 
 .hero {
   text-align: center;
-  background-color: #f8f9fa;
   padding: 30px 10px;
   border-radius: 8px;
 }
@@ -82,6 +82,91 @@
   font-size: 0.9em;
 }
 
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: #ffffff; /* White background */
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
+h2 {
+  text-align: center;
+}
 
+.user-form {
+  display: flex;
+  flex-direction: column;
+}
 
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+label {
+  flex: 1;
+  font-weight: bold;
+  padding-right: 10px;
+}
+
+input, select {
+  flex: 2;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-button:hover {
+  background-color: #45a049;
+}
+
+p {
+  text-align: center;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff; /* White background */
+  color: #333; /* Dark text for contrast */
+  margin: 0;
+}
+
+.custom-table th,
+.custom-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.custom-table thead {
+  background-color: #f2f2f2;
+}
+
+.custom-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.custom-table tr:hover {
+  background-color: #e0e0e0;
+}
+
+.custom-table th {
+  font-weight: bold;
+  text-transform: uppercase;
+}

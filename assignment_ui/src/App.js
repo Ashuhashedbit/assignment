@@ -5,7 +5,8 @@ import Homepage from "./components/Homepage";
 import Login from "./components/Login";
 import OTPTablePage from "./components/OTPTablePage"; 
 import UsersList from "./components/Userslist";
-
+import UsersAdd from "./components/Usersadd";
+import UsersUpdate from "./components/Usersupdate";
 function App() {
   return (
     <div className="App">
@@ -17,6 +18,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/otp-table" element={<OTPTablePage />} />
             {/* <Route path="/userlist" element={<UserList />} /> */}
+            <Route path="/usersadd" element={<UsersAdd />} />
+            <Route path="/usersupdate/:userid" element={<UsersUpdate />} />
           </Routes>
         </Router>
       </header>

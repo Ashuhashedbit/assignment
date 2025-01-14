@@ -59,7 +59,7 @@ const Homepage = () => {
               {/* <h1>Hello, User #{user.userId}!</h1> */}
               {/* <h4>Your User Type: {userType || "Loading..."}</h4> */}
               <button>
-                <Link to="/userlist">User</Link>
+                <Link to="/userslist">User</Link>
               </button>
               {/* Logout Button */}
               <button onClick={handleLogout}>Logout</button>
