@@ -94,7 +94,7 @@ function Login() {
           />
         </div>
 
-        <div className="form-group">
+        <div className="col-6 text-end">
           <button
             type="button"
             onClick={handleGenerateOtp}
@@ -116,7 +116,7 @@ function Login() {
           />
         </div>
         
-        <div className="form-group">
+        <div className="col-6 text-end">
           <button type="submit" className="submit-button">
             Login
           </button>

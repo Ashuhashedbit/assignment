@@ -72,19 +72,14 @@ function UsersView() {
           </select>
         </div>
 
-        <div className="form-buttons">
-            <button className='submit-button'>          
-                <Link to="/userslist" className="btn btn-primary">
+        <div className="col-6 text-end">
+                <Link to="/userslist" className="btn btn-dark">
             Back to Users List
-          </Link></button>
+            </Link>
         </div>
       </form>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
-
-      <button className="submit-button">
-              <Link to="/userslist">Back</Link>
-            </button>
     </div>
   );
 }

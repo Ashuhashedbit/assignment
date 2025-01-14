@@ -104,23 +104,27 @@ const UsersUpdate = () => {
               <option value="5">Parent</option>
             </Field>
           </div>
-          <div className="mt-3">
-            <button type="submit" className="submit-button">
+          <div className="col-6 text-end">
+            <button className='btn btn-success' type="submit">
               Submit
             </button>
             &nbsp; &nbsp;
-            <Link to="/userslist" className="submit-button">
+            <span>
+              
+              <Link to="/userslist" className="btn btn-dark">
               Cancel
             </Link>
+              
+            </span>
+            
+            
           </div>
         </Form>
       </Formik>
     </div>
 
 
-<button className="submit-button">
-        <Link to="/userslist">Back</Link>
-      </button>
+
 
       </>
   );

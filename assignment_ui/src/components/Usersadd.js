@@ -96,16 +96,20 @@ function UsersAdd() {
             <option value="5">Parent</option>
           </select>
         </div>
-
-        <button className="submit-button" type="submit">Add User</button>
+      <div className='col-6 text-end'>
+      <button className="btn btn-success submit-button" type="submit">Add User</button>
+      <span>
+        <Link to="/userslist" className="btn btn-dark">Back</Link>
+      </span>
+      </div>
+      
+        
       </form>
       {message && <p style={{ color: 'green' }}>{message}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
 
-      <button className="submit-button">
-        <Link to="/userslist">Back</Link>
-      </button>
+      
     </div>
   );
 }
