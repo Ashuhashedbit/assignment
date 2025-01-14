@@ -61,7 +61,7 @@ function Login() {
       const user = response.data.find(
         (user) => user.username === username && user.tempotp === otp
       );
-      navigate("/");
+      navigate("/userslist");
 
     } catch (err) {
       setError("Error during login. Please try again.");
@@ -93,6 +93,17 @@ function Login() {
             required
           />
         </div>
+
+        <div className="form-group">
+          <button
+            type="button"
+            onClick={handleGenerateOtp}
+            className="submit-button"
+          >
+            Generate OTP
+          </button>
+        </div>
+
         <div className="form-group">
           <label>OTP:</label>
           <input
@@ -104,18 +115,9 @@ function Login() {
             required
           />
         </div>
+        
         <div className="form-group">
-          <button
-            type="button"
-            onClick={handleGenerateOtp}
-            className="submit-button"
-            style={{ marginTop: "10px", marginLeft: "40%" }}
-          >
-            Generate OTP
-          </button>
-        </div>
-        <div className="form-group">
-          <button type="submit" className="submit-button" style={{ marginTop: "15px", marginLeft: "50%" }}>
+          <button type="submit" className="submit-button">
             Login
           </button>
         </div>

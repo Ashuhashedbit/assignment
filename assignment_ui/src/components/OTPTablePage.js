@@ -26,11 +26,10 @@ function OTPTablePage() {
   };
 
   return (
-    <div style={{ margin: "50px" }}>
+    <div>
       <h2>OTP Table for Users</h2>
       <table
-        border="1"
-        style={{ width: "100%", textAlign: "left", borderCollapse: "collapse" }}
+      className="table table-responsive"
       >
         <thead>
           <tr>

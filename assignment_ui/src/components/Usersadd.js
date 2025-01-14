@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 function UsersAdd() {
@@ -101,6 +101,11 @@ function UsersAdd() {
       </form>
       {message && <p style={{ color: 'green' }}>{message}</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+
+      <button className="submit-button">
+        <Link to="/userslist">Back</Link>
+      </button>
     </div>
   );
 }

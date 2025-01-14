@@ -52,7 +52,7 @@ const Homepage = () => {
 
   return (
     <div className="homepage">
-      <h1>Assignment</h1>
+      
       <header className="hero">
         <div>
           {user ? (

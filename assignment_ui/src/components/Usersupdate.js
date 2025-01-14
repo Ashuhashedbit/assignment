@@ -49,6 +49,7 @@ const UsersUpdate = () => {
   };
 
   return (
+    <>
     <div className="container">
       <h2>Update User</h2>
       <Formik
@@ -115,6 +116,13 @@ const UsersUpdate = () => {
         </Form>
       </Formik>
     </div>
+
+
+<button className="submit-button">
+        <Link to="/userslist">Back</Link>
+      </button>
+
+      </>
   );
 };
 

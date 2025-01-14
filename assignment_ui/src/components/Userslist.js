@@ -60,11 +60,11 @@ const UsersList = () => {
           <Link to="/usersadd">Create New User</Link>
         </button>
       )}
-      <button className="submit-button">
-        <Link to="/">Back</Link>
-      </button>
+      {/* <button className="submit-button">
+        <Link to="/userslist">Back</Link>
+      </button> */}
 
-      <table className="styled-table">
+      <table className="table table-responsive table-striped table-hover table-bordered border-info">
         <thead>
           <tr>
             <th>Sr No</th>
@@ -75,12 +75,12 @@ const UsersList = () => {
             <th>Gender</th>
             <th>Mobile</th>
             <th>User Type</th>
-            <th colSpan={3}>Actions</th>
+            <th colSpan={3} className='w-25'>Actions</th>
           </tr>
         </thead>
         <tbody>
           {userList
-            .filter(item => currentUserType !== 4 ||currentUserType !== 4 || item.userid === parseInt(localStorage.getItem('user_id')))
+            .filter(item => currentUserType !== 4 || currentUserType !== 4 || item.userid === parseInt(localStorage.getItem('user_id')))
             .map((item, index) => (
               <tr key={item.userid}>
                 <td>{index + 1}</td>
@@ -91,7 +91,36 @@ const UsersList = () => {
                 <td>{item.gender}</td>
                 <td>{item.mobile}</td>
                 <td>{getUserTypeLabel(item.usertype)}</td>
+
                 <td>
+                  {(
+                    <button className="submit-button btn btn-primary">
+                      <Link to={`/users/usersview/${item.userid}`}>View</Link>
+                    </button>
+                  )}
+                </td>
+
+                <td>
+                  {(currentUserType === 1 || currentUserType === 2 || currentUserType === 3) && (
+                    <>
+                      <button className="submit-button btn btn-warning">
+                        <Link to={`/users/usersupdate/${item.userid}`}>Edit</Link>
+                      </button>
+                    </>
+                  )}
+                </td>
+
+                <td>
+                  {(currentUserType === 1 || currentUserType === 2) && (
+                    <>
+                      <button className="submit-button btn btn-danger" onClick={() => deleteUser(item.userid)}>
+                        Delete User
+                      </button>
+                    </>
+                  )}
+                </td>
+
+                {/* <td>
                   {(currentUserType === 1 || currentUserType === 2) && (
                     <>
                       <button className="submit-button">
@@ -120,7 +149,7 @@ const UsersList = () => {
                       <Link to={`/users/usersview/${item.userid}`}>View</Link>
                     </button>
                   )}
-                </td>
+                </td> */}
               </tr>
             ))}
         </tbody>

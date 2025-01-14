@@ -81,6 +81,10 @@ function UsersView() {
       </form>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      <button className="submit-button">
+              <Link to="/userslist">Back</Link>
+            </button>
     </div>
   );
 }
